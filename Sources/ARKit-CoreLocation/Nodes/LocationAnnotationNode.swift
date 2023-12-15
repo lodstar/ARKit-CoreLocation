@@ -19,6 +19,8 @@ open class LocationAnnotationNode: LocationNode {
     /// To draw the label exactly on the true location, use a value of 0. To draw it below the true location,
     /// use a negative value.
     public var annotationHeightAdjustmentFactor = 1.1
+    
+    public var scaleMultiplier: Float = 1.0
 
     public init(location: CLLocation?, image: UIImage) {
         let plane = SCNPlane(width: image.size.width / 100, height: image.size.height / 100)
@@ -106,7 +108,7 @@ open class LocationAnnotationNode: LocationNode {
             }
         } else {
             let scaleFunc = scalingScheme.getScheme()
-            scale = scaleFunc(distance, adjustedDistance)
+            scale = scaleFunc(distance, adjustedDistance) * scaleMultiplier
 
             annotationNode.scale = SCNVector3(x: scale, y: scale, z: scale)
             annotationNode.childNodes.forEach { node in
