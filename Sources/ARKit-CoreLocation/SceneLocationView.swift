@@ -380,21 +380,23 @@ public extension SceneLocationView {
         polyNodes.forEach {
             $0.locationNodes.forEach {
                 let locationNodeLocation = self.locationOfLocationNode($0)
-            $0.updatePositionAndScale(setup: true,
-                                      scenePosition: currentScenePosition,
+                $0.updatePositionAndScale(setup: true,
+                                          scenePosition: currentScenePosition,
                                           locationNodeLocation: locationNodeLocation,
-                                      locationManager: sceneLocationManager,
-                                      onCompletion: {})
-            sceneNode?.addChildNode($0)
+                                          locationManager: sceneLocationManager,
+                                          onCompletion: {})
+                sceneNode?.addChildNode($0)
+            }
         }
-    }
     }
 
     func removeRoutes(routes: [MKRoute]) {
         routes.forEach { route in
             if let index = polylineNodes.firstIndex(where: { $0.polyline == route.polyline }) {
                 let node = polylineNodes.remove(at: index)
-                node.removeFromParentNode()
+                node.locationNodes.forEach {
+                    $0.removeFromParentNode()
+                }
             }
         }
     }
