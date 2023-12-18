@@ -393,7 +393,8 @@ public extension SceneLocationView {
     func removeRoutes(routes: [MKRoute]) {
         routes.forEach { route in
             if let index = polylineNodes.firstIndex(where: { $0.polyline == route.polyline }) {
-                polylineNodes.remove(at: index)
+                let node = polylineNodes.remove(at: index)
+                node.removeFromParentNode()
             }
         }
     }
