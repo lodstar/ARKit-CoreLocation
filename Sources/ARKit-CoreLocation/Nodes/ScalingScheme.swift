@@ -18,12 +18,12 @@ import Foundation
 /// - linearBuffer (threshold, buffer): linearly scales an object based on its distance as long as it is
 /// further than the buffer distance, otherwise it just returns 100% scale.
 public enum ScalingScheme {
-
     case normal
     case tiered(threshold: Double, scale: Float)
     case doubleTiered(firstThreshold: Double, firstScale: Float, secondThreshold: Double, secondScale: Float)
     case linear(threshold: Double)
     case linearBuffer(threshold: Double, buffer: Double)
+    case customLinear(threshold: Double)
 
     /// Returns a closure to compute appropriate scale factor based on the current value of `self` (a `ScalingSchee`).
     /// The closure accepts two parameters and returns the scale factor to apply to an `AnnotationNode`.
@@ -55,10 +55,9 @@ public enum ScalingScheme {
                 let absAdjDist = abs(adjustedDistance)
 
                 let scaleToReturn =  Float( max(maxSize - (absAdjDist / absThreshold), 0.0))
-//                print("threshold: \(absThreshold) adjDist: \(absAdjDist) scaleToReturn: \(scaleToReturn)")
+                print("threshold: \(absThreshold) adjDist: \(absAdjDist) scaleToReturn: \(scaleToReturn)")
                 return scaleToReturn
             }
-
         case .linearBuffer(let threshold, let buffer):
             return { (distance, adjustedDistance) in
                 let maxSize = 1.0
@@ -66,11 +65,11 @@ public enum ScalingScheme {
                 let absAdjDist = abs(adjustedDistance)
 
                 if absAdjDist < buffer {
-//                    print("threshold: \(absThreshold) adjDist: \(absAdjDist)")
+                    //                    print("threshold: \(absThreshold) adjDist: \(absAdjDist)")
                     return Float(maxSize)
                 } else {
                     let scaleToReturn =  Float( max( maxSize - (absAdjDist / absThreshold), 0.0 ))
-//                    print("threshold: \(absThreshold) adjDist: \(absAdjDist) scaleToReturn: \(scaleToReturn)")
+                    //                    print("threshold: \(absThreshold) adjDist: \(absAdjDist) scaleToReturn: \(scaleToReturn)")
                     return scaleToReturn
                 }
             }
@@ -84,8 +83,16 @@ public enum ScalingScheme {
                 }
                 return scale
             }
+        case .customLinear(let threshold):
+            return { (distance, adjustedDistance) in
+
+                let maxSize = 1.0
+                let absThreshold = abs(threshold)
+                let absDist = abs(distance)
+
+                let scaleToReturn =  Float( max(maxSize - (absDist / absThreshold), 0.0))
+                return scaleToReturn
+            }
         }
-
     }
-
 }
