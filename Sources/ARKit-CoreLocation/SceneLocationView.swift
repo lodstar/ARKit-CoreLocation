@@ -495,4 +495,8 @@ extension SceneLocationView: SceneLocationManagerDelegate {
     func didRemoveSceneLocationEstimate(position: SCNVector3, location: CLLocation) {
         locationEstimateDelegate?.didRemoveSceneLocationEstimate(sceneLocationView: self, position: position, location: location)
     }
+
+    func didUpdateHeading(heading: CLLocationDirection, accuracy: CLLocationDirection) {
+        locationEstimateDelegate?.didUpdateHeading(heading: heading, accuracy: accuracy)
+    }
 }

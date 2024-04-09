@@ -31,6 +31,9 @@ public extension SceneLocationViewEstimateDelegate {
     func didRemoveSceneLocationEstimate(sceneLocationView: SceneLocationView, position: SCNVector3, location: CLLocation) {
         //
     }
+    func didUpdateHeading(heading: CLLocationDirection, accuracy: CLLocationDirection) {
+        //
+    }
 }
 
 @available(iOS 11.0, *)

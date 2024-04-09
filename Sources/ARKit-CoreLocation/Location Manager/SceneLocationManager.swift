@@ -30,6 +30,7 @@ protocol SceneLocationManagerDelegate: class {
 
     func didAddSceneLocationEstimate(position: SCNVector3, location: CLLocation)
     func didRemoveSceneLocationEstimate(position: SCNVector3, location: CLLocation)
+    func didUpdateHeading(heading: CLLocationDirection, accuracy: CLLocationDirection)
 }
 
 public final class SceneLocationManager {
@@ -142,5 +143,11 @@ extension SceneLocationManager: LocationManagerDelegate {
     func locationManagerDidUpdateLocation(_ locationManager: LocationManager,
                                           location: CLLocation) {
         addSceneLocationEstimate(location: location)
+    }
+
+    func locationManagerDidUpdateHeading(_ locationManager: LocationManager,
+                                         heading: CLLocationDirection,
+                                         accuracy: CLLocationDirection) {
+        sceneLocationDelegate?.didUpdateHeading(heading: heading, accuracy: accuracy)
     }
 }
