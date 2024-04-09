@@ -21,6 +21,7 @@ public protocol LNTouchDelegate: class {
 public protocol SceneLocationViewEstimateDelegate: class {
     func didAddSceneLocationEstimate(sceneLocationView: SceneLocationView, position: SCNVector3, location: CLLocation)
     func didRemoveSceneLocationEstimate(sceneLocationView: SceneLocationView, position: SCNVector3, location: CLLocation)
+    func didUpdateHeading(heading: CLLocationDirection, accuracy: CLLocationDirection)
 }
 
 @available(iOS 11.0, *)
